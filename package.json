@@ -1,0 +1,27 @@
+{
+	"name": "@simpleview/async-cron",
+	"version": "0.0.1",
+	"description": "Async cron job runner using cron syntax",
+	"author": "Owen Allen <owenallenaz@gmail.com>",
+	"devDependencies": {
+		"@simpleview/assertlib": "1.2.0",
+		"@simpleview/mochalib": "1.0.2",
+		"mocha": "8.4.0",
+		"sinon": "11.1.1"
+	},
+	"dependencies": {
+		"cron-parser": "3.5.0",
+		"async-mutex": "0.3.1"
+	},
+	"main": "src/index.js",
+	"scripts": {
+		"test": "mocha testing",
+		"docker": "./dev/build && ./dev/run || true",
+		"publish": "./dev/publish"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/simpleviewinc/async-cron"
+	},
+	"license": "MIT"
+}

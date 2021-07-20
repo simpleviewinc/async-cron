@@ -1,0 +1,1 @@
+export type JobRunner = () => (void | Promise<void>);
