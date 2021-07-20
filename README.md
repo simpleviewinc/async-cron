@@ -3,7 +3,7 @@ Simple cron job runner for Node that handles async functions and uses a `Mutex` 
 
 # Installation
 
-```bash
+```
 npm install @simpleview/async-cron
 ```
 
