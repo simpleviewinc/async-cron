@@ -1,15 +1,15 @@
 # async-cron
 Simple cron job runner for Node that handles async functions and uses a `Mutex` that keeps the same job from running more than once simultaneously.
 
-# installation
+# Installation
 
-```
+```bash
 npm install @simpleview/async-cron
 ```
 
 # Example
 
-```
+```js
 const { Job } = require("@simpleview/async-cron");
 
 const job = new Job({
@@ -37,7 +37,7 @@ job.start();
 
 If your job errors, the error will be blackholed unless you subscribe to the error handler.
 
-```
+```js
 job.on("error", function(e) {
 	// do something with the error
 });
@@ -45,7 +45,7 @@ job.on("error", function(e) {
 
 If you want to differentiate errors from the job running from code errors, you can check the error `code`.
 
-```
+```js
 const { Job, E_RUNNING } = require("@simpleview/async-cron");
 
 const job = new Job(...args...);
@@ -66,8 +66,8 @@ job.on("error", function(e) {
 `Job` represents a single cron job.
 
 * args
-	* schedule - string - The schedule in [cron-parser](https://www.npmjs.com/package/cron-parser) syntax.
-* fn - The function that will execute your job. It should either run fully synchronously, or be an async method/promise-based method. Do not utilize callbacks here, or else the async locking mechanism will not function properly. When this function returns, the job must be complete.
+	* schedule - `string` - The schedule in [cron-parser](https://www.npmjs.com/package/cron-parser) syntax.
+* fn - `function` or `async function` - The function that will execute your job. It should either run fully synchronously, or be an async method/promise-based method. Do not utilize callbacks here, or else the async locking mechanism will not function properly. When this function returns, the job must be complete.
 
 ### Job.start()
 
@@ -81,7 +81,7 @@ Stops the job. This will not halt functions that are currently executing at this
 
 Manually executes the job. If the job errors, then this will throw, this includes throwing if the job is currently executing.
 
-```
+```js
 const result = await job.run();
 ```
 
@@ -89,7 +89,7 @@ const result = await job.run();
 
 Check if the job is currently running.
 
-```
+```js
 const isRunning = job.isRunning();
 ```
 
