@@ -1,6 +1,6 @@
 {
 	"name": "@simpleview/async-cron",
-	"version": "0.0.2",
+	"version": "0.0.3-0",
 	"description": "Async cron job runner using cron syntax",
 	"author": "Owen Allen <owenallenaz@gmail.com>",
 	"devDependencies": {

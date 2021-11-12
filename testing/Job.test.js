@@ -224,4 +224,18 @@ describe(__filename, function() {
 		const now2 = Date.now();
 		assert.strictEqual(now2 - now >= 1000 && now2 - now <= 2000, true);
 	});
+
+	it("should manually running overwriting function should return results", async function() {
+		const fn = () => "bar";
+
+		const job = new Job({
+			schedule : everySecond
+		}, async function() {
+			return "foo";
+		});
+
+		const results = await job.run(fn);
+		assert.strictEqual(results, "bar");
+		assert.strictEqual(job.isRunning(), false);
+	});
 });
