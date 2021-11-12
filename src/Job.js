@@ -65,7 +65,7 @@ class Job extends events.EventEmitter {
 	 * Triggers the job to run manually
 	 * @returns {Promise<ReturnType<this["fn"]>>}
 	 */
-	async run() {
+	async run(fn) {
 		if (this.#mutex.isLocked()) {
 			const e = new Error("Job is already running.");
 			// @ts-ignore: VSCode complains about error not having code despite it being a common practice.
@@ -73,7 +73,10 @@ class Job extends events.EventEmitter {
 			throw e;
 		}
 
-		const result = await this.#mutex.runExclusive(this.fn);
+		// if we pass in a function then we run that rather than the current cron function
+		if (!fn) { fn = this.fn; }
+
+		const result = await this.#mutex.runExclusive(fn);
 
 		return result;
 	}

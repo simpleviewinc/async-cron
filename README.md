@@ -85,6 +85,12 @@ Manually executes the job. If the job errors, then this will throw, this include
 const result = await job.run();
 ```
 
+The job function can be overridden if you have another function which should have the same resources locked as the job. Care must be taken here as the same on.result will still execute.
+
+```js
+const result = await job.run(fn);
+```
+
 ### Job.isRunning()
 
 Check if the job is currently running.
