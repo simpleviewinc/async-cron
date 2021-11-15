@@ -5,21 +5,6 @@ const util = require("util");
 
 const setTimeoutP = util.promisify(setTimeout);
 
-// const E_RUNNING = Symbol("E_RUNNING");
-
-// console.log(E_RUNNING);
-
-// const e = new Error("death");
-// e.code = E_RUNNING;
-
-// console.log("e", e);
-
-// const e = new ERROR_E_RUNNING("Something yo");
-
-// throw e;
-
-console.log(E_RUNNING);
-
 describe(__filename, function() {
 	this.timeout(5000);
 	
@@ -223,5 +208,36 @@ describe(__filename, function() {
 
 		const now2 = Date.now();
 		assert.strictEqual(now2 - now >= 1000 && now2 - now <= 2000, true);
+	});
+
+	it("should pass along arguments to the function - single", async function() {
+		const job = new Job({
+			schedule : everySecond
+		}, async function(arg1) {
+			return arg1;
+		});
+
+		const result1 = await job.run();
+		assert.strictEqual(result1, undefined);
+
+		const result2 = await job.run("foo");
+		assert.strictEqual(result2, "foo");
+	});
+
+	it("should pass along arguments to the function - multiple", async function() {
+		const job = new Job({
+			schedule : everySecond
+		}, async function(arg1 = "default", arg2 = "second") {
+			return arg1 + arg2;
+		});
+
+		const result1 = await job.run();
+		assert.strictEqual(result1, "defaultsecond");
+
+		const result2 = await job.run("foo");
+		assert.strictEqual(result2, "foosecond");
+
+		const result3 = await job.run("foo", "bar");
+		assert.strictEqual(result3, "foobar");
 	});
 });

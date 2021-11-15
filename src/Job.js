@@ -6,7 +6,7 @@ const { Mutex } = require("async-mutex");
 const E_RUNNING = require("./E_RUNNING");
 
 /**
- * @template T
+ * @template {import("./types").AnyFunc} T
  */
 class Job extends events.EventEmitter {
 	/** 
@@ -63,9 +63,9 @@ class Job extends events.EventEmitter {
 	}
 	/**
 	 * Triggers the job to run manually
-	 * @returns {Promise<ReturnType<this["fn"]>>}
+	 * @type {import("./types").JobInterface<T>}
 	 */
-	async run() {
+	async run(...args) {
 		if (this.#mutex.isLocked()) {
 			const e = new Error("Job is already running.");
 			// @ts-ignore: VSCode complains about error not having code despite it being a common practice.
@@ -73,7 +73,7 @@ class Job extends events.EventEmitter {
 			throw e;
 		}
 
-		const result = await this.#mutex.runExclusive(this.fn);
+		const result = await this.#mutex.runExclusive(() => this.fn(...args));
 
 		return result;
 	}
